@@ -160,15 +160,14 @@ class Evaluation(object):
         # Step the environment
         previous_observation, action = self.observation, actions[0]
         self.observation, reward, terminal, info = self.monitor.step(action)
-
+        print(actions[0])
         # Record the experience.
-        if self.training:
-            try:
-                self.agent.record(previous_observation, action, reward, self.observation, terminal, info)
-            except NotImplementedError:
-                pass
+        try:
+            self.agent.record(previous_observation, action, reward, self.observation, terminal, info)
+        except NotImplementedError:
+            pass
 
-        return reward, terminal
+        return actions[0], self.observation, reward, terminal, info
 
     def run_batched_episodes(self):
         """
